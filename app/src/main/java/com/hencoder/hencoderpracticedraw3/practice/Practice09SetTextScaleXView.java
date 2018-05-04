@@ -27,6 +27,7 @@ public class Practice09SetTextScaleXView extends View {
         paint.setTextSize(60);
 
         // 使用 Paint.setTextScaleX() 来改变文字宽度
+        paint.setTextScaleX(1.2f);
     }
 
     @Override
@@ -34,5 +35,7 @@ public class Practice09SetTextScaleXView extends View {
         super.onDraw(canvas);
 
         canvas.drawText(text, 50, 100, paint);
+        paint.setTextScaleX(1.0f);
+        canvas.drawText(text, 50, 100 + paint.getFontSpacing(), paint);
     }
 }

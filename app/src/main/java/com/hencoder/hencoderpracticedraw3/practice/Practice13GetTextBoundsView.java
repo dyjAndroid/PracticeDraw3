@@ -4,13 +4,17 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class Practice13GetTextBoundsView extends View {
     Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    String text = "hencoder";
     String text1 = "A";
     String text2 = "a";
     String text3 = "J";
@@ -19,6 +23,13 @@ public class Practice13GetTextBoundsView extends View {
     String text6 = "â";
     int top = 200;
     int bottom = 400;
+
+    int offsetX = 60;
+    int offsetY = 100;
+    Rect bounds = new Rect();
+    Rect mRect = new Rect();
+    float[] mFloats = new float[6];
+    private Paint.FontMetrics mFontMetrics;
 
     public Practice13GetTextBoundsView(Context context) {
         super(context);
@@ -43,18 +54,45 @@ public class Practice13GetTextBoundsView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawRect(50, top, getWidth() - 50, bottom, paint1);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setTextSize(80);
+        canvas.drawText(text, offsetX, offsetY, paint);
+
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        mFontMetrics = paint.getFontMetrics();
+        Log.d("dyj", bounds.left + "," + bounds.top + "," + bounds.right + "," + bounds.bottom);
+        Log.d("dyj", mFontMetrics.top + "," + mFontMetrics.bottom);
+        bounds.left += offsetX;
+        bounds.top += offsetY;
+        bounds.right += offsetX;
+        bounds.bottom += offsetY;
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(bounds, paint);
+//        canvas.drawRect(50, top, getWidth() - 50, bottom, paint1);
 
         // 使用 Paint.getTextBounds() 计算出文字的显示区域
         // 然后计算出文字的绘制位置，从而让文字上下居中
         // 这种居中算法的优点是，可以让文字精准地居中，分毫不差
-
-        int middle = (top + bottom) / 2;
-        canvas.drawText(text1, 100, middle, paint2);
-        canvas.drawText(text2, 200, middle, paint2);
-        canvas.drawText(text3, 300, middle, paint2);
-        canvas.drawText(text4, 400, middle, paint2);
-        canvas.drawText(text5, 500, middle, paint2);
-        canvas.drawText(text6, 600, middle, paint2);
+//        paint2.getTextBounds(text1, 0, text1.length(), mRect);
+//        int middle = (top + bottom) / 2;
+//        mFloats[0] = -(mRect.top + mRect.bottom) / 2;
+//        Log.d("dyj", "left:" + mRect.left + ",top:" + mRect.top
+//                + ",right:" + mRect.right + ",bottom:" + mRect.bottom);
+//        paint2.getTextBounds(text2, 0, text2.length(), mRect);
+//        mFloats[1] = -(mRect.top + mRect.bottom) / 2;
+//        paint2.getTextBounds(text3, 0, text1.length(), mRect);
+//        mFloats[2] = -(mRect.top + mRect.bottom) / 2;
+//        paint2.getTextBounds(text4, 0, text2.length(), mRect);
+//        mFloats[3] = -(mRect.top + mRect.bottom) / 2;
+//        paint2.getTextBounds(text5, 0, text2.length(), mRect);
+//        mFloats[4] = -(mRect.top + mRect.bottom) / 2;
+//        paint2.getTextBounds(text6, 0, text2.length(), mRect);
+//        mFloats[5] = -(mRect.top + mRect.bottom) / 2;
+//        canvas.drawText(text1, 100, middle + mFloats[0], paint2);
+//        canvas.drawText(text2, 200, middle + mFloats[1], paint2);
+//        canvas.drawText(text3, 300, middle + mFloats[2], paint2);
+//        canvas.drawText(text4, 400, middle + mFloats[3], paint2);
+//        canvas.drawText(text5, 500, middle + mFloats[4], paint2);
+//        canvas.drawText(text6, 600, middle + mFloats[5], paint2);
     }
 }
